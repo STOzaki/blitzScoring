@@ -361,31 +361,31 @@ public class blitzFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(113, 113, 113)
+                .addComponent(next)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(show2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(detect, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(label1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(add)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(label2)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(textBox1)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(next)
-                                .addGap(18, 18, 18)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(show2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, 234, Short.MAX_VALUE))
-                                .addGap(94, 94, 94))
-                            .addComponent(textBox2, javax.swing.GroupLayout.Alignment.TRAILING)))))
+                        .addComponent(add)
+                        .addGap(18, 18, 18)
+                        .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)))
+                .addGap(379, 379, 379))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(detect, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(label1)
+                    .addComponent(label2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(textBox2)
+                    .addComponent(textBox1)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -396,12 +396,13 @@ public class blitzFrame extends javax.swing.JFrame {
                     .addComponent(textBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(add)
                     .addComponent(textBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(label2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(next)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(next)
+                        .addComponent(add))
                     .addComponent(show, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -518,7 +519,7 @@ public class blitzFrame extends javax.swing.JFrame {
                 begin.next = after;
                 begin.before = null;
                 total.add(player);
-                show.setText(player);
+                show.setText(player + " has been added!");
                 people = people + ", " + player; // adds the first person to the list of people.
             } else {
                 Node end = going(player);
@@ -545,24 +546,31 @@ public class blitzFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_addKeyPressed
 
     private void startKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_startKeyPressed
-        tempplayer = total.size();
-        temptotal = total;
-        lobby();
-        game();
-        show.setText(""); // makes the text box empty.
-        String peopleLeft = "Here are the players: ";
-        for(int i = 0; i < tempplayer; i++){
-            if(i == tempplayer - 1){
-                peopleLeft = peopleLeft + temptotal.get(i);
-            } else {
-                peopleLeft = peopleLeft + temptotal.get(i) + ", ";
+        if(total.size() > 1){
+            tempplayer = total.size();
+            for(int i = 0; i < total.size(); i++){ // makes a complete copy of temptotal
+                temptotal.add(total.get(i));
             }
+            lobby();
+            game();
+            show.setText(""); // makes the text box empty.
+            String peopleLeft = "Here are the players: ";
+            for(int i = 0; i < tempplayer; i++){
+                if(i == tempplayer - 1){
+                    peopleLeft = peopleLeft + temptotal.get(i);
+                } else {
+                    peopleLeft = peopleLeft + temptotal.get(i) + ", ";
+                }
+            }
+            peopleLeft = peopleLeft + ".";
+            show2.setText(peopleLeft);
+        } else {
+            show2.setText("Please add more players.");
         }
-        peopleLeft = peopleLeft + ".";
-        show2.setText(peopleLeft);
     }//GEN-LAST:event_startKeyPressed
 
     private void nextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nextKeyPressed
+        if(doDebug)System.out.println(total.size());
         if(temptotal.contains(textBox1.getText())){
             boolean integ = false;
             String text = textBox2.getText(); // grabing the text
@@ -579,11 +587,16 @@ public class blitzFrame extends javax.swing.JFrame {
                 if(integ == true){
                     addingScore(textBox1.getText(),Integer.parseInt(textBox2.getText())); // pluging the name and score
                     tempplayer --;
-                    String remain = remainder();
                     if(tempplayer == 0){
+//                        System.out.println(total.size());
                         roundEnd();
                     } else {
-                        show.setText(textBox1.getText() + " has got the new score of " + textBox2.getText() + ".  " + remain);
+                        // grab textBox2 and find the Score
+                        int scores = findScore(textBox1.getText());
+                        show.setText(textBox1.getText() + " has got the new score of " + scores + ".");
+                        
+                        // grabs the players names and displays it.
+                        String remain = remainder();
                         show2.setText(remain);
                     }
                 } else {
@@ -597,13 +610,15 @@ public class blitzFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_nextKeyPressed
 
     private void roundEnd(){
+//        System.out.println(total.size());
         tempplayer = total.size();
-        System.out.println(total.size());
+        temptotal.clear();
+//        System.out.println(total.size());
         for(int i = 0; i < total.size(); i++){
             // put all of players in to the temp again
             temptotal.add(total.get(i));
         }
-        System.out.println(temptotal.size());
+        if(doDebug)System.out.println(temptotal.size());
 //        Node people = begin;
 //        String round = "";
 //        while(people.name != null){
@@ -612,14 +627,14 @@ public class blitzFrame extends javax.swing.JFrame {
 //            
 //        }
 //        show.setText(round);
+         // grabs all player's names and their scores and then displays it.
+        String roundScores = allScore();
+        show.setText(roundScores);
+        
+        // makes a string that will contain all player's names
         String list = "";
         list = list + remainder();
-        String testing = "";
-        for(int i = 0; i < tempplayer; i++){
-            testing = testing + total.get(i);
-        }
-        show2.setText(testing);
-//        show2.setText(list);
+        show2.setText(list);
         
         
         
@@ -655,6 +670,40 @@ public class blitzFrame extends javax.swing.JFrame {
         list = list + ".";
         detect.add(list);
         return list;
+    }
+    
+    private String allScore(){
+        String list = "";
+        for(int i = 0; i < total.size(); i++){
+            // find score for the name index i.
+            int scores = findScore(total.get(i));
+            
+            if(i == total.size() - 1){
+                list = list + total.get(i) + " has a score of " + scores;
+            } else if(i == total.size() - 2){
+                list = list + total.get(i) + " has a score of " + scores + ", and ";
+            } else {
+                /* this part could be optimized by sorting the begin nodes
+                and having an directory that corresponds to each element in the
+                hash nodes. */
+                list = list + total.get(i) + " has a score of " + scores + ", ";
+            }
+        }
+        list = list + " for this round.";
+        return list;
+    }
+    
+    private int findScore(String name){
+        Node starting = begin;
+        int scores = 0;
+        while(starting.name != null){
+            if(starting.name.equals(name)){
+                scores = starting.score;
+                break;
+            }
+            starting = starting.next;
+        }
+        return scores;
     }
     
     /**
