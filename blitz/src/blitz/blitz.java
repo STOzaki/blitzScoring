@@ -5,7 +5,7 @@
  */
 package blitz;
 
-//import edu.princeton.cs.algs4.StdOut;
+//import edu.princeton.cs.algs4.StdOut;  // not used.
 import java.lang.Exception;
 import java.util.Scanner;
 import java.util.LinkedList;
