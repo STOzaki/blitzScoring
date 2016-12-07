@@ -55,16 +55,16 @@ public class blitzFrame extends javax.swing.JFrame {
 //        }
     }
 
-//    private String whoWins() {
-//        Node all = begin;
-//        for (int i = players; i > 0; i--) {
-//            if (all.score >= 100) {
-//                return all.name;
-//            }
-//            all = all.next;
-//        }
-//        return "no one found, sorry";
-//    }
+    private String whoWins() {
+        Node all = begin;
+        for (int i = total.size(); i > 0; i--) {
+            if (all.score >= 100) {
+                return all.name;
+            }
+            all = all.next;
+        }
+        return "no one found, sorry";
+    }
 
 //    private void round(Scanner base) {
 //        boolean done = true;
@@ -165,16 +165,17 @@ public class blitzFrame extends javax.swing.JFrame {
         }
     }
 
-//    private boolean winner() {
-//        Node all = begin;
-//        for (int i = players; i > 0; i--) {
-//            if (all.score >= 100) {
-//                return false;
-//            }
-//            all = all.next;
-//        }
-//        return true;
-//    }
+    private boolean winner() {
+        Node all = begin;
+        for (int i = total.size(); i > 0; i--) {
+            if(doDebug)System.out.println(all.score);
+            if (all.score >= 100) {
+                return true;
+            }
+            all = all.next;
+        }
+        return false;
+    }
 
 //    private void naming(Scanner base) {
 //        System.out.println("Just type in the names of your players and then type 'done' when you are done.");
@@ -256,19 +257,7 @@ public class blitzFrame extends javax.swing.JFrame {
     }
     
     private void game(){
-//        label2.setLocation(finish.getLocation().x, finish.getLocation().y);
-//        System.out.println(label2.setLocation(WIDTH, WIDTH));
-//            int x = finish.getLocation().x;
-//            int y = finish.getLocation().y;
-//            label2.setLocation(x,y);
-//        if(finish.getLocation().x < 0){
-//        } else {
-//            int x = label2.getLocation().x;
-//            int y = label2.getLocation().y;
-//            finish.setLocation(x,y);
-//        }
         if(game == true){
-//            label2.setLocation(finish.getLocation().x, finish.getLocation().y);
             textBox1.setVisible(false);
             textBox2.setVisible(false);
             label1.setVisible(false);
@@ -369,7 +358,7 @@ public class blitzFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(add)
                         .addGap(18, 18, 18)
-                        .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, 70, Short.MAX_VALUE)))
+                        .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(379, 379, 379))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -383,9 +372,10 @@ public class blitzFrame extends javax.swing.JFrame {
                     .addComponent(label1)
                     .addComponent(label2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(textBox2)
-                    .addComponent(textBox1)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(textBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                    .addComponent(textBox2))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -539,8 +529,6 @@ public class blitzFrame extends javax.swing.JFrame {
                     duplicate = false; // set the duplicate back
                 }
             }
-//            System.out.println(starter.getFirst());
-            
         }
             textBox1.setText("");
     }//GEN-LAST:event_addKeyPressed
@@ -588,8 +576,13 @@ public class blitzFrame extends javax.swing.JFrame {
                     addingScore(textBox1.getText(),Integer.parseInt(textBox2.getText())); // pluging the name and score
                     tempplayer --;
                     if(tempplayer == 0){
-//                        System.out.println(total.size());
-                        roundEnd();
+                        boolean win = winner();
+                        tooLow();
+                        if(win == true){
+                            endGame();
+                        } else {
+                            roundEnd();
+                        }
                     } else {
                         // grab textBox2 and find the Score
                         int scores = findScore(textBox1.getText());
@@ -609,6 +602,25 @@ public class blitzFrame extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_nextKeyPressed
 
+    private void endGame(){
+        String winner = whoWins();
+        int score = findScore(winner);
+        show.setText(winner + " has won with " + score + "!");
+        String list = "";
+        for(int i = 0; i < total.size(); i++){
+            if(winner.equals(total.get(i))){
+                if(doDebug)System.out.println("winner");
+            } else {
+                int myscore = findScore(total.get(i));
+                if(i == total.size() - 1){
+                    list = list + total.get(i) + " got " + myscore + ".";
+                } else {
+                    list = list + total.get(i) + " got " + myscore + ", ";
+                }
+            }
+        }
+        show2.setText(list);
+    }
     private void roundEnd(){
 //        System.out.println(total.size());
         tempplayer = total.size();
