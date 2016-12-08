@@ -17,6 +17,10 @@ public class blitzFrame extends javax.swing.JFrame {
     boolean lobby = true;
     boolean game = false;
     boolean duplicate = false;
+    boolean complete = false;
+    boolean answer = false;
+    boolean save = false;
+    LinkedList<Boolean> reset = new LinkedList<>();
     int tempplayer = 0;
     Node begin;
     boolean finished = true;
@@ -358,7 +362,7 @@ public class blitzFrame extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(add)
                         .addGap(18, 18, 18)
-                        .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))
                 .addGap(379, 379, 379))
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
@@ -484,7 +488,7 @@ public class blitzFrame extends javax.swing.JFrame {
                 addingScore(textBox1.getText(),Integer.parseInt(textBox2.getText())); // pluging the name and score
                 show.setText(temptotal.get(tempplayer - 1));
                 tempplayer --;
-                remainder();
+                remainder(true);
             }
         } else if(box.length() == 0) {
             show.setText("Name box is empty.");
@@ -499,46 +503,50 @@ public class blitzFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_nextMouseClicked
 
     private void addKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addKeyPressed
-        String player = textBox1.getText();
-        if (player.equals("")) {
-            show.setText("I am sorry, but that is a blank space.");
+        if(answer){ // close out of game.
+            dispose(); // destroy the game.
+        } else if(save){
+            reset.add(false);
+            newGame();
         } else {
-            if (begin.name == null) {
-                begin.name = player;
-                Node after = new Node();
-                begin.next = after;
-                begin.before = null;
-                total.add(player);
-                show.setText(player + " has been added!");
-                people = people + ", " + player; // adds the first person to the list of people.
+            String player = textBox1.getText();
+            if (player.equals("")) {
+                show.setText("I am sorry, but that is a blank space.");
             } else {
-                Node end = going(player);
-                if(duplicate == false){
-                    Node previous = bname();
-                    end.name = player;
-                    end.before = previous;
-                    Node future = new Node();
-                    end.next = future;
+                if (begin.name == null) {
+                    begin.name = player;
+                    Node after = new Node();
+                    begin.next = after;
+                    begin.before = null;
                     total.add(player);
-                    detect.add("added");
                     show.setText(player + " has been added!");
-                    people = people + ", " + player; // Add the new person.
-                    show2.setText(people); // set the all of the people.
+                    people = people + ", " + player; // adds the first person to the list of people.
                 } else {
-                    show.setText("I am sorry, " + player + " already exists.");
-                    duplicate = false; // set the duplicate back
+                    Node end = going(player);
+                    if(duplicate == false){
+                        Node previous = bname();
+                        end.name = player;
+                        end.before = previous;
+                        Node future = new Node();
+                        end.next = future;
+                        total.add(player);
+                        detect.add("added");
+                        show.setText(player + " has been added!");
+                        people = people + ", " + player; // Add the new person.
+                        show2.setText(people); // set the all of the people.
+                    } else {
+                        show.setText("I am sorry, " + player + " already exists.");
+                        duplicate = false; // set the duplicate back
+                    }
                 }
             }
+                textBox1.setText("");
         }
-            textBox1.setText("");
     }//GEN-LAST:event_addKeyPressed
 
     private void startKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_startKeyPressed
         if(total.size() > 1){
-            tempplayer = total.size();
-            for(int i = 0; i < total.size(); i++){ // makes a complete copy of temptotal
-                temptotal.add(total.get(i));
-            }
+            temp(); // setting the tempplayer and temptotal
             lobby();
             game();
             show.setText(""); // makes the text box empty.
@@ -558,50 +566,98 @@ public class blitzFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_startKeyPressed
 
     private void nextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nextKeyPressed
-        if(doDebug)System.out.println(total.size());
-        if(temptotal.contains(textBox1.getText())){
-            boolean integ = false;
-            String text = textBox2.getText(); // grabing the text
-            if(doDebug)System.out.println(text.length());
-            try{
-                Integer.parseInt(textBox2.getText());
-                integ = true;
-            } catch(Exception e) {
-                // since it failed, it will remain false.
-            }
-            if(text.length() == 0){
-                show.setText("Sorry you have no score");
-            } else { // if the name exists and there is a score, then put thoese in
-                if(integ == true){
-                    addingScore(textBox1.getText(),Integer.parseInt(textBox2.getText())); // pluging the name and score
-                    tempplayer --;
-                    if(tempplayer == 0){
-                        boolean win = winner();
-                        tooLow();
-                        if(win == true){
-                            endGame();
+        String box = textBox1.getText();
+        if(complete){
+            add.setVisible(true);
+            add.setText("no");
+            next.setText("yes");
+            show.setText("Would you like to play again?");
+            show2.setText("");
+            answer = true;
+            complete = false;
+        } else if(answer){
+            show.setText("Would you like to save the players?");
+            show2.setText("");
+            reset.add(true);
+            save = true;
+            answer = false;
+        } else if(save){
+            newGame();
+        } else {
+            if(doDebug)System.out.println(total.size());
+            if(temptotal.contains(textBox1.getText())){
+                boolean integ = false;
+                String text = textBox2.getText(); // grabing the text
+                if(doDebug)System.out.println(text.length());
+                try{
+                    Integer.parseInt(textBox2.getText());
+                    integ = true;
+                } catch(Exception e) {
+                    // since it failed, it will remain false.
+                }
+                if(text.length() == 0){
+                    show.setText("Sorry you have no score");
+                } else { // if the name exists and there is a score, then put thoese in
+                    if(integ == true){
+                        addingScore(textBox1.getText(),Integer.parseInt(textBox2.getText())); // pluging the name and score
+                        tempplayer --;
+                        if(tempplayer == 0){
+                            boolean win = winner();
+                            tooLow();
+                            if(win == true){
+                                endGame();
+                            } else {
+                                roundEnd();
+                            }
                         } else {
-                            roundEnd();
+                            // grab textBox2 and find the Score
+                            int scores = findScore(textBox1.getText());
+                            show.setText(textBox1.getText() + " has got the new score of " + scores + ".");
+
+                            // grabs the players names and displays it.
+                            String remain = remainder(true);
+                            show2.setText(remain);
                         }
                     } else {
-                        // grab textBox2 and find the Score
-                        int scores = findScore(textBox1.getText());
-                        show.setText(textBox1.getText() + " has got the new score of " + scores + ".");
-                        
-                        // grabs the players names and displays it.
-                        String remain = remainder();
-                        show2.setText(remain);
+                        show.setText("Sorry that is not an integer.");
                     }
-                } else {
-                    show.setText("Sorry that is not an integer.");
                 }
+            } else if(box.length() == 0) {
+                show.setText("Name box is empty.");
+            } else {
+                show.setText("The name either is not a player or you have already scored them for this round.");
             }
-        } else {
-            show.setText("Name box is empty.");
-            
         }
     }//GEN-LAST:event_nextKeyPressed
 
+    private void newGame(){
+        next.setText("next");
+        add.setText("add");
+        lobby = true;
+        game = false;
+        lobby();
+        game();
+        if(reset.getFirst() == false){ // if they want to save thier players.
+            begin.next = null;
+            begin.name = null;
+            begin.score = 0;
+            total.clear();
+            temptotal.clear();
+            tempplayer = 0;
+        } else {
+            Node reset = begin;
+            while(reset.name != null){
+                reset.score = 0;
+                reset = reset.next;
+            }
+        }
+        temp(); // setting the tempplayer and temptotal
+        show.setText("Here are the players: " + remainder(false));
+        complete = false;
+        answer = false;
+        save = false;
+    }
+    
     private void endGame(){
         String winner = whoWins();
         int score = findScore(winner);
@@ -620,6 +676,8 @@ public class blitzFrame extends javax.swing.JFrame {
             }
         }
         show2.setText(list);
+        next.setText("Finish");
+        complete = true;
     }
     private void roundEnd(){
 //        System.out.println(total.size());
@@ -645,11 +703,18 @@ public class blitzFrame extends javax.swing.JFrame {
         
         // makes a string that will contain all player's names
         String list = "";
-        list = list + remainder();
+        list = list + remainder(true);
         show2.setText(list);
         
         
         
+    }
+    
+    private void temp(){
+        tempplayer = total.size();
+            for(int i = 0; i < total.size(); i++){ // makes a complete copy of temptotal
+                temptotal.add(total.get(i));
+            }
     }
     
     private void addingScore(String name, int score){
@@ -670,18 +735,23 @@ public class blitzFrame extends javax.swing.JFrame {
         detect.add("moving on");
     }
     
-    private String remainder(){
-        String list = "Here are the people left: ";
-        for(int i = 0; i < tempplayer; i++){
-            if(i == tempplayer - 1){
-                list = list + temptotal.get(i);
-            } else {
-                list = list + temptotal.get(i) + ", ";
+    private String remainder(boolean extra){
+        if(extra){
+            String list = "Here are the people left: ";
+        } else {
+            String list = "";
+            for(int i = 0; i < tempplayer; i++){
+                if(i == tempplayer - 1){
+                    list = list + temptotal.get(i);
+                } else {
+                    list = list + temptotal.get(i) + ", ";
+                }
             }
+            list = list + ".";
+            detect.add(list);
+            return list;
         }
-        list = list + ".";
-        detect.add(list);
-        return list;
+        return "no one left";
     }
     
     private String allScore(){
