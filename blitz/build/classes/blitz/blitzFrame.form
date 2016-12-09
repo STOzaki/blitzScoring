@@ -24,38 +24,42 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" attributes="0">
-              <EmptySpace min="-2" pref="113" max="-2" attributes="0"/>
-              <Component id="next" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="show2" max="32767" attributes="0"/>
-                  <Group type="102" attributes="0">
-                      <Component id="add" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="show" pref="28" max="32767" attributes="0"/>
-                  </Group>
-              </Group>
-              <EmptySpace min="-2" pref="379" max="-2" attributes="0"/>
-          </Group>
-          <Group type="102" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="start" min="-2" pref="107" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="127" max="-2" attributes="0"/>
               <Component id="detect" min="-2" pref="29" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="16" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="1" attributes="0">
                   <Component id="label1" min="-2" max="-2" attributes="0"/>
                   <Component id="label2" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                  <Component id="textBox1" pref="312" max="32767" attributes="0"/>
-                  <Component id="textBox2" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Group type="102" attributes="0">
+                      <Component id="next" min="-2" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="45" max="-2" attributes="0"/>
+                              <Component id="show2" max="32767" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="add" min="-2" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="53" max="-2" attributes="0"/>
+                              <Component id="show" pref="28" max="32767" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace min="-2" pref="379" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" attributes="0">
+                      <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                          <Component id="textBox1" pref="312" max="32767" attributes="0"/>
+                          <Component id="textBox2" max="32767" attributes="0"/>
+                      </Group>
+                      <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+                  </Group>
               </Group>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -82,7 +86,6 @@
               </Group>
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="start" min="-2" max="-2" attributes="0"/>
                   <Component id="detect" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Component id="show2" alignment="0" min="-2" pref="22" max="-2" attributes="0"/>
               </Group>
@@ -112,15 +115,6 @@
       <Properties>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
-    </Component>
-    <Component class="javax.swing.JButton" name="start">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="start game"/>
-      </Properties>
-      <Events>
-        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="startMouseClicked"/>
-        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="startKeyPressed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JTextField" name="textBox2">
     </Component>
