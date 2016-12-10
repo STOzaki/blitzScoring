@@ -36,7 +36,6 @@ public class blitzFrame extends javax.swing.JFrame {
      */
     public blitzFrame() {
         initComponents();
-        detect.setVisible(false);
         label2.setVisible(false);
         textBox2.setVisible(false);
         next.setVisible(true);
@@ -45,7 +44,8 @@ public class blitzFrame extends javax.swing.JFrame {
 //        while (finished) {
             begin = new Node();
 //            players = 0;
-            System.out.println("I hope you are ready to play Blitz. (I hope that is the name of this game)");
+            show.setText("I hope you are ready to play Blitz!");
+            show2.setText("Type in your name(s) and press add. Once everyone is added, press start.");
 //            Scanner base = new Scanner(System.in);
 //            System.out.println("");
 //            naming(base);
@@ -62,103 +62,23 @@ public class blitzFrame extends javax.swing.JFrame {
 //        }
     }
 
-    private String whoWins() {
+    private LinkedList<String> whoWins() {
+        LinkedList<String> winners = new LinkedList<>();
+        int max = 0;
         Node all = begin;
         for (int i = total.size(); i > 0; i--) {
-            if (all.score >= 100) {
-                return all.name;
+            if (all.score > max) {
+//                System.out.println("Find the max " + all.score);
+                winners.clear();
+                winners.add(all.name);
+                max = all.score;
+            } else if(all.score == max) {
+//                System.out.println("Find a match " + all.score);
+                winners.add(all.name);
             }
             all = all.next;
         }
-        return "no one found, sorry";
-    }
-
-//    private void round(Scanner base) {
-//        boolean done = true;
-//        while (done) {
-//            LinkedList<String> remain = new LinkedList<>();
-//            for (int i = 0; i < players; i++) {
-//                remain.add(total.get(i));
-//            }
-//            int left = players;
-//            System.out.println("Great!  As soon as you finish this round type the names and score of each player.");
-//            scoring(remain, base, left);
-//            done = winner();
-//            tooLow();
-//            scores();
-//        }
-//    }
-
-//    private void scoring(LinkedList<String> remain, Scanner base, int left) {
-//        while (left != 0) { // go through all of the players.
-//            Node people = begin;
-//            System.out.println("");
-//            System.out.print("Out of these people: ");
-//            rollcall(remain, left);
-//            System.out.println("  Who got what score this round?");
-//            Scanner another = new Scanner(System.in);
-//            String name = another.nextLine();
-//            String player = name.toLowerCase();
-//            if ("score".equals(player)) {
-//                scores();
-//                scoring(remain, base, left);
-//                break;
-//            }
-//
-//            try {
-//                while ((player.equals(people.name)) == false) { // go through the Nodes until you find the one you are looking for.
-//                    people = people.next;
-//                }
-//            } catch (Exception e) {
-//                System.out.println("");
-//                System.out.println("Sorry, but that person is not one of your players, please try again.");
-//                scoring(remain, base, left);
-//                break;
-//            }
-//            try {
-//                if ((remain.contains(player)) == false) {
-//                    System.out.println("Sorry, but you have already done this person.");
-//                    scoring(remain, base, left);
-//                }
-//                System.out.println("");
-//                System.out.println("What did " + people.name + " get this round?");
-//                Scanner number = new Scanner(System.in);
-//                int num = number.nextInt();
-//                people.score += num;
-//                left -= 1;
-//                remain.remove(player);
-////                System.out.println(left);
-//            } catch (Exception e) {
-//                System.out.println("");
-//                System.out.println("Sorry, but that is not a score.");
-//                scoring(remain, base, left);
-//                break;
-//            }
-//        }
-//    }
-
-    private void rollcall(LinkedList<String> remain, int left) {
-        for (int j = 0; j < left; j++) {
-            System.out.print(remain.get(j));
-            if (j >= 0 && j < left - 1) {
-                System.out.print(", ");
-            } else if (j == left - 1) {
-                System.out.print(".");
-            }
-        }
-    }
-
-    private void scores() {
-        Node check;
-        check = begin;
-        System.out.println("");
-        System.out.println("This is the score for this round: ");
-        System.out.println("");
-        while (check.name != null) {
-            System.out.println(check.name + " has " + check.score + " points.");
-            System.out.println("");
-            check = check.next;
-        }
+        return winners;
     }
 
     private void tooLow() {
@@ -183,39 +103,7 @@ public class blitzFrame extends javax.swing.JFrame {
         }
         return false;
     }
-
-//    private void naming(Scanner base) {
-//        System.out.println("Just type in the names of your players and then type 'done' when you are done.");
-//        while (true) {
-//            String player = base.nextLine();
-////            if (player.getClass() != String.class) {
-//////                throw new Exception("\033[31m Sorry that is not the name of a player");
-////            }
-//            if ("done".equals(player)) {
-//                break;
-//            }
-//
-//            if (begin.name == null) {
-//                begin.name = player;
-//                Node after = new Node();
-//                begin.next = after;
-//                begin.before = null;
-//                total.add(player);
-//            } else {
-//                Node end = going();
-//                Node previous = bname();
-//                end.name = player;
-//                end.before = previous;
-//                Node future = new Node();
-//                end.next = future;
-//                total.add(player);
-//            }
-//            players += 1;
-//        }
-//
-//        System.out.println("");
-//    }
-
+    
     private Node bname() {
         Node check = begin;
         while (check.next.name != null) {
@@ -302,7 +190,6 @@ public class blitzFrame extends javax.swing.JFrame {
         textBox2 = new javax.swing.JTextField();
         next = new javax.swing.JButton();
         label2 = new javax.swing.JLabel();
-        detect = new java.awt.List();
         show2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -342,10 +229,6 @@ public class blitzFrame extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
-                .addComponent(detect, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(16, 16, 16)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(label1)
@@ -362,7 +245,7 @@ public class blitzFrame extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(add)
                                 .addGap(53, 53, 53)
-                                .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)))
+                                .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(379, 379, 379))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
@@ -388,76 +271,30 @@ public class blitzFrame extends javax.swing.JFrame {
                         .addComponent(add))
                     .addComponent(show, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(detect, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(show2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addComponent(show2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(68, 68, 68))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseClicked
-        String player = textBox1.getText();
-        if (player.equals("")) {
-            show.setText("I am sorry, but that is a blank space.");
-        } else {
-            if (begin.name == null) {
-                detect.add("Starting");
-                begin.name = player;
-                Node after = new Node();
-                begin.next = after;
-                begin.before = null;
-                total.add(player);
-            } else {
-                Node end = going(player);
-                detect.add("working");
-                if(duplicate == false){
-                    Node previous = bname();
-                    end.name = player;
-                    end.before = previous;
-                    Node future = new Node();
-                    end.next = future;
-                    total.add(player);
-                    detect.add("added");
-                } else {
-                    show.setText("I am sorry, " + player + " already exists.");
-                }
-            }
-//            System.out.println(starter.getFirst());
-            show.setText(player);
-            
-        }
-            textBox1.setText("");
+        addEvent();
     }//GEN-LAST:event_addMouseClicked
 
     private void nextMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nextMouseClicked
-        String box = textBox1.getText();
-        detect.add(box);
-        if(box.length() > 0 && temptotal.contains(textBox1.getText())){
-            String text = textBox2.getText(); // grabing the text
-            if(doDebug)System.out.println(text.length());
-            if(text.length() == 0){
-                show.setText("Sorry you have no score");
-            } else { // if the name exists and there is a score, then put thoese in
-                addingScore(textBox1.getText(),Integer.parseInt(textBox2.getText())); // pluging the name and score
-                show.setText(temptotal.get(tempplayer - 1));
-                tempplayer --;
-                remainder(true);
-            }
-        } else if(box.length() == 0) {
-            show.setText("Name box is empty.");
-        } else {
-            show.setText("The name either is not a player or you have already scored them for this round.");
-            
-        }
-//            System.out.println(tempplayer);
-//            for(int i = 0; i < temptotal.size(); i++){
-//                System.out.println(temptotal.get(i));
-//            }
+        nextEvent();
     }//GEN-LAST:event_nextMouseClicked
 
     private void addKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addKeyPressed
+        addEvent();
+    }//GEN-LAST:event_addKeyPressed
+
+    private void nextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nextKeyPressed
+        nextEvent();
+    }//GEN-LAST:event_nextKeyPressed
+
+    private void addEvent(){
         if(answer){ // close out of game.
             dispose(); // destroy the game.
         } else if(save){
@@ -489,7 +326,6 @@ public class blitzFrame extends javax.swing.JFrame {
                         Node future = new Node();
                         end.next = future;
                         total.add(player);
-                        detect.add("added");
                         show.setText(player + " has been added!");
                         people = people + player + ", "; // Add the new person.
                     } else {
@@ -501,9 +337,9 @@ public class blitzFrame extends javax.swing.JFrame {
             }
                 textBox1.setText("");
         }
-    }//GEN-LAST:event_addKeyPressed
-
-    private void nextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nextKeyPressed
+    }
+    
+    private void nextEvent(){
         if(starting){
             if(total.size() > 1){
                 temp(); // setting the tempplayer and temptotal
@@ -550,12 +386,12 @@ public class blitzFrame extends javax.swing.JFrame {
             } else if(added) {
                 reset.add(true);
                 newGame();
-            } else {
+            } else { // regular scoring
                 if(doDebug)System.out.println(total.size());
                 if(temptotal.contains(textBox1.getText())){
-                    String text = textBox2.getText(); // grabing the text
-                    if(doDebug)System.out.println(text.length());
-                    if(text.length() == 0){
+                    String score = textBox2.getText(); // grabing the score
+                    if(doDebug)System.out.println(score.length());
+                    if(score.length() == 0){
                         show.setText("Sorry you have no score");
                     } else { // if the name exists and there is a score, then put thoese in
                         boolean integ = false;
@@ -568,22 +404,23 @@ public class blitzFrame extends javax.swing.JFrame {
                         if(integ == true){
                             addingScore(textBox1.getText(),Integer.parseInt(textBox2.getText())); // pluging the name and score
                             tempplayer --;
-                            if(tempplayer == 0){ // ends the round.
+                            if(tempplayer == 0) { // ends the round.
                                 boolean win = winner();
                                 tooLow();
                                 if(win == true){
                                     endGame();
                                 } else {
                                     roundEnd();
+                                    show2.setText("Players: " + remainder(false)); // telling the people who is playing for everyround.
                                 }
+                                
                             } else {
                                 // grab textBox2 and find the Score
                                 int scores = findScore(textBox1.getText());
                                 show.setText(textBox1.getText() + " has got the new score of " + scores + ".");
 
                                 // grabs the players names and displays it.
-                                String remain = remainder(true);
-                                show2.setText(remain);
+                                show2.setText(remainder(true));
                             }
                         } else {
                             show.setText("Sorry that is not an integer.");
@@ -592,12 +429,13 @@ public class blitzFrame extends javax.swing.JFrame {
                 } else if(box.length() == 0) {
                     show.setText("Name box is empty.");
                 } else {
-                    show.setText("The name either is not a player or you have already scored them for this round.");
+                    show.setText("The player either does not exist or has already been scored.");
+//                    show.setText("The name either is not a player or you have already scored them for this round.");
                 }
             }
         }
-    }//GEN-LAST:event_nextKeyPressed
-
+    }
+    
     private void newGame(){
         if(reset.get(0) == false){ // if they want to save thier players.
             begin.next = null;
@@ -645,12 +483,33 @@ public class blitzFrame extends javax.swing.JFrame {
     }
     
     private void endGame(){
-        String winner = whoWins();
-        int score = findScore(winner);
-        show.setText(winner + " has won with " + score + "!");
+        LinkedList<String> winner = whoWins();
+        System.out.println(winner.size());
+        if(winner.size() > 1){
+            int lenWinner = winner.size();
+            String winners = "";
+            while(lenWinner != 0){
+                if(lenWinner == 1){
+                    winners = winners + winner.get(lenWinner - 1) + " won with " + findScore(winner.get(lenWinner - 1)) + "!";
+                } else if(lenWinner == 2) {
+                    winners = winners + winner.get(lenWinner - 1) + ", and ";
+                } else {
+                    winners = winners + winner.get(lenWinner - 1) + ", ";
+                }
+                lenWinner --;
+            }
+            show.setText(winners);
+        } else if(winner.size() == 1) {
+            int score = findScore(winner.get(0)); // grabing the winner's score.
+            show.setText(winner + " has won with " + score + "!");
+        } else {
+            show.setText("No one has won the game!");
+        }
+        
+        
         String list = "";
-        for(int i = 0; i < total.size(); i++){
-            if(winner.equals(total.get(i))){
+        for(int i = 0; i < total.size(); i++) {
+            if(winner.contains(total.get(i))) {
                 if(doDebug)System.out.println("winner");
             } else {
                 int myscore = findScore(total.get(i));
@@ -666,9 +525,8 @@ public class blitzFrame extends javax.swing.JFrame {
         complete = true;
     }
     private void roundEnd(){
-//        System.out.println(total.size());
-        temptotal.clear();
-//        System.out.println(total.size());
+        temptotal.clear(); // clears the temtotal
+        tempplayer = total.size(); // set the length back to normal.
         for(int i = 0; i < total.size(); i++){
             // put all of players in to the temp again
             temptotal.add(total.get(i));
@@ -711,14 +569,12 @@ public class blitzFrame extends javax.swing.JFrame {
             } else {
                 if(people.name.equals(name)){
                     people.score = people.score + score;
-                    detect.add("added score");
                     temptotal.remove(people.name);
                     break;
                 }
             }
             people = people.next;
         }
-        detect.add("moving on");
     }
     
     private String remainder(boolean extra){
@@ -808,7 +664,6 @@ public class blitzFrame extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton add;
-    private java.awt.List detect;
     private javax.swing.JLabel label1;
     private javax.swing.JLabel label2;
     private javax.swing.JButton next;
