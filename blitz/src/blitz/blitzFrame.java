@@ -20,6 +20,7 @@ public class blitzFrame extends javax.swing.JFrame {
     boolean complete = false;
     boolean answer = false;
     boolean save = false;
+    boolean added = false;
     boolean starting = true;
     String people = "Players: ";
     LinkedList<Boolean> reset = new LinkedList<>();
@@ -461,6 +462,10 @@ public class blitzFrame extends javax.swing.JFrame {
             dispose(); // destroy the game.
         } else if(save){
             reset.add(false);
+            reset.add(false);
+            newGame();
+        } else if(added){
+            reset.add(false);
             newGame();
         } else {
             String player = textBox1.getText();
@@ -537,6 +542,12 @@ public class blitzFrame extends javax.swing.JFrame {
                 save = true;
                 answer = false;
             } else if(save){
+                show.setText("Would you like to add someone?");
+                show2.setText("");
+                added = true;
+                save = false;
+                reset.add(true);
+            } else if(added) {
                 reset.add(true);
                 newGame();
             } else {
@@ -588,7 +599,7 @@ public class blitzFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_nextKeyPressed
 
     private void newGame(){
-        if(reset.getFirst() == false){ // if they want to save thier players.
+        if(reset.get(0) == false){ // if they want to save thier players.
             begin.next = null;
             begin.name = null;
             begin.score = 0;
@@ -599,19 +610,28 @@ public class blitzFrame extends javax.swing.JFrame {
             game = true;
             starting = true; // switches the next to the lobby menu.
             next.setText("start");
-        } else {
-            Node reset = begin;
-            while(reset.name != null){
-                reset.score = 0;
-                reset = reset.next;
+            people = "Players: ";
+        } else { // dont save players
+            Node t = begin;
+            while(t.name != null){ // set everyone's score to 0.
+                t.score = 0;
+                t = t.next;
             }
             temp(); // setting the tempplayer and temptotal
             show.setText("Here are the players: " + remainder(false));
-            lobby = true;
-            game = false;
-            next.setText("next");
+            if(reset.get(1)){ // add people
+                lobby = false;
+                game = true;
+                starting = true; // switches the next to the lobby menu.
+                next.setText("start");
+            } else { // do not add people
+                lobby = true;
+                game = false;
+                next.setText("next");
+            }
         }
-        people = "Players: ";
+        textBox1.setText(""); // set the box to empty
+        textBox2.setText(""); // set the box to empty
         add.setText("add");
         lobby();
         game();
@@ -621,6 +641,7 @@ public class blitzFrame extends javax.swing.JFrame {
         complete = false;
         answer = false;
         save = false;
+        added = false;
     }
     
     private void endGame(){
