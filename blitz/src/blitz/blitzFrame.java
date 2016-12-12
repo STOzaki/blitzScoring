@@ -287,11 +287,15 @@ public class blitzFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_nextMouseClicked
 
     private void addKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_addKeyPressed
-        addEvent();
+        if(evt.getExtendedKeyCode() == 10){
+            addEvent();
+        }
     }//GEN-LAST:event_addKeyPressed
 
     private void nextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_nextKeyPressed
-        nextEvent();
+        if(evt.getExtendedKeyCode() == 10){
+            nextEvent();
+        }
     }//GEN-LAST:event_nextKeyPressed
 
     private void addEvent(){
@@ -304,19 +308,21 @@ public class blitzFrame extends javax.swing.JFrame {
         } else if(added){
             reset.add(false);
             newGame();
-        } else {
+        } else { // normally adding people.
             String player = textBox1.getText();
             if (player.equals("")) {
                 show.setText("I am sorry, but that is a blank space.");
-            } else {
+            } else {  // adding a new person.
                 if (begin.name == null) {
                     begin.name = player;
                     Node after = new Node();
                     begin.next = after;
                     begin.before = null;
                     total.add(player);
+//                    temptotal.add(player); // add to the temp as well.
                     show.setText(player + " has been added!");
                     people = people + player + ", "; // adds the first person to the list of people.
+//                    tempplayer ++; // increment the amount of people.
                 } else {
                     Node end = going(player);
                     if(duplicate == false){
@@ -328,6 +334,7 @@ public class blitzFrame extends javax.swing.JFrame {
                         total.add(player);
                         show.setText(player + " has been added!");
                         people = people + player + ", "; // Add the new person.
+//                        tempplayer ++;
                     } else {
                         show.setText("I am sorry, " + player + " already exists.");
                         duplicate = false; // set the duplicate back
@@ -347,22 +354,25 @@ public class blitzFrame extends javax.swing.JFrame {
                 game();
                 show.setText(""); // makes the text box empty.
                 String peopleLeft = "Here are the players: ";
+                temptotal.clear(); // clears the array to add new ones.
                 for(int i = 0; i < tempplayer; i++){
+                    temptotal.add(total.get(i)); // this will renew the temptotal!
                     if(i == tempplayer - 1){
-                        peopleLeft = peopleLeft + temptotal.get(i);
+                        peopleLeft = peopleLeft + total.get(i);
                     } else {
-                        peopleLeft = peopleLeft + temptotal.get(i) + ", ";
+                        peopleLeft = peopleLeft + total.get(i) + ", ";
                     }
                 }
+                if(doDebug)System.out.println(remainder(true));
                 peopleLeft = peopleLeft + ".";
                 show2.setText(peopleLeft);
                 starting = false; // will return next back to its original settings.
-                next.setText("next"); // setting next back to next
+                next.setText("next"); // setting next back to next.
             } else {
                 show.setText("Please add more players.");
                 
             }
-        } else {
+        } else {  // others
             String box = textBox1.getText();
             if(complete){
                 add.setVisible(true);
@@ -401,8 +411,9 @@ public class blitzFrame extends javax.swing.JFrame {
                         } catch(Exception e) {
                             // since it failed, it will remain false.
                         }
-                        if(integ == true){
-                            addingScore(textBox1.getText(),Integer.parseInt(textBox2.getText())); // pluging the name and score
+                        if(integ == true){  // everything is correctly inputed.
+                            // scores for that person's name.
+                            addingScore(textBox1.getText(),Integer.parseInt(textBox2.getText()));
                             tempplayer --;
                             if(tempplayer == 0) { // ends the round.
                                 boolean win = winner();
@@ -421,6 +432,9 @@ public class blitzFrame extends javax.swing.JFrame {
 
                                 // grabs the players names and displays it.
                                 show2.setText(remainder(true));
+                                
+                                // clears the name textBox.
+                                textBox1.setText("");
                             }
                         } else {
                             show.setText("Sorry that is not an integer.");
@@ -437,7 +451,7 @@ public class blitzFrame extends javax.swing.JFrame {
     }
     
     private void newGame(){
-        if(reset.get(0) == false){ // if they want to save thier players.
+        if(reset.get(0) == false){ // if they do not want to save thier players.
             begin.next = null;
             begin.name = null;
             begin.score = 0;
@@ -449,7 +463,7 @@ public class blitzFrame extends javax.swing.JFrame {
             starting = true; // switches the next to the lobby menu.
             next.setText("start");
             people = "Players: ";
-        } else { // dont save players
+        } else { // save players
             Node t = begin;
             while(t.name != null){ // set everyone's score to 0.
                 t.score = 0;
@@ -484,7 +498,7 @@ public class blitzFrame extends javax.swing.JFrame {
     
     private void endGame(){
         LinkedList<String> winner = whoWins();
-        System.out.println(winner.size());
+//        System.out.println(winner.size());
         if(winner.size() > 1){
             int lenWinner = winner.size();
             String winners = "";
@@ -499,9 +513,9 @@ public class blitzFrame extends javax.swing.JFrame {
                 lenWinner --;
             }
             show.setText(winners);
-        } else if(winner.size() == 1) {
+        } else if(winner.size() == 1) { // only one winner.
             int score = findScore(winner.get(0)); // grabing the winner's score.
-            show.setText(winner + " has won with " + score + "!");
+            show.setText(winner.get(0) + " has won with " + score + "!");
         } else {
             show.setText("No one has won the game!");
         }
@@ -524,6 +538,7 @@ public class blitzFrame extends javax.swing.JFrame {
         next.setText("Finish");
         complete = true;
     }
+    
     private void roundEnd(){
         temptotal.clear(); // clears the temtotal
         tempplayer = total.size(); // set the length back to normal.
