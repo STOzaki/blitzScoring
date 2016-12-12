@@ -433,8 +433,9 @@ public class blitzFrame extends javax.swing.JFrame {
                                 // grabs the players names and displays it.
                                 show2.setText(remainder(true));
                                 
-                                // clears the name textBox.
+                                // clears the name and num textBoxes.
                                 textBox1.setText("");
+                                textBox2.setText("");
                             }
                         } else {
                             show.setText("Sorry that is not an integer.");
