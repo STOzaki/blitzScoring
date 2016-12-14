@@ -45,7 +45,7 @@ public class blitzFrame extends javax.swing.JFrame {
             begin = new Node();
 //            players = 0;
             show.setText("I hope you are ready to play Blitz!");
-            show2.setText("Type in your name(s) and press add. Once everyone is added, press start.");
+            show2.setText("Type in your name(s) and press enter or add button. Press start when ready to play.");
 //            Scanner base = new Scanner(System.in);
 //            System.out.println("");
 //            naming(base);
@@ -196,6 +196,12 @@ public class blitzFrame extends javax.swing.JFrame {
 
         label1.setText("Player's name");
 
+        textBox1.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textBox1KeyPressed(evt);
+            }
+        });
+
         add.setText("add");
         add.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -209,6 +215,12 @@ public class blitzFrame extends javax.swing.JFrame {
         });
 
         show.setToolTipText("");
+
+        textBox2.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                textBox2KeyPressed(evt);
+            }
+        });
 
         next.setText("next");
         next.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -234,24 +246,23 @@ public class blitzFrame extends javax.swing.JFrame {
                     .addComponent(label1)
                     .addComponent(label2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(textBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
+                    .addComponent(textBox2))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(124, 124, 124)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(next)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(show2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(add)
-                                .addGap(53, 53, 53)
-                                .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                        .addGap(379, 379, 379))
+                        .addComponent(show2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(textBox1, javax.swing.GroupLayout.DEFAULT_SIZE, 312, Short.MAX_VALUE)
-                            .addComponent(textBox2))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                        .addComponent(next)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(add)
+                        .addGap(53, 53, 53)
+                        .addComponent(show, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(379, 379, 379))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -272,7 +283,7 @@ public class blitzFrame extends javax.swing.JFrame {
                     .addComponent(show, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(show2, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(68, 68, 68))
+                .addGap(41, 41, 41))
         );
 
         pack();
@@ -297,6 +308,22 @@ public class blitzFrame extends javax.swing.JFrame {
             nextEvent();
         }
     }//GEN-LAST:event_nextKeyPressed
+
+    private void textBox2KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBox2KeyPressed
+        if(evt.getExtendedKeyCode() == 10){
+            nextEvent();
+        }
+    }//GEN-LAST:event_textBox2KeyPressed
+
+    private void textBox1KeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textBox1KeyPressed
+        if(evt.getExtendedKeyCode() == 10){
+            if(starting){
+                addEvent();
+            } else {
+                nextEvent();
+            }
+        }
+    }//GEN-LAST:event_textBox1KeyPressed
 
     private void addEvent(){
         if(answer){ // close out of game.
@@ -347,12 +374,12 @@ public class blitzFrame extends javax.swing.JFrame {
     }
     
     private void nextEvent(){
-        if(starting){
+        if(starting){  // when you on the starting screen.
             if(total.size() > 1){
                 temp(); // setting the tempplayer and temptotal
                 lobby();
                 game();
-                show.setText(""); // makes the text box empty.
+                show2.setText("Enter your info and then either press enter or press the next button."); // instructions.
                 String peopleLeft = "Here are the players: ";
                 temptotal.clear(); // clears the array to add new ones.
                 for(int i = 0; i < tempplayer; i++){
@@ -365,7 +392,7 @@ public class blitzFrame extends javax.swing.JFrame {
                 }
                 if(doDebug)System.out.println(remainder(true));
                 peopleLeft = peopleLeft + ".";
-                show2.setText(peopleLeft);
+                show.setText(peopleLeft);
                 starting = false; // will return next back to its original settings.
                 next.setText("next"); // setting next back to next.
             } else {
@@ -477,6 +504,7 @@ public class blitzFrame extends javax.swing.JFrame {
                 game = true;
                 starting = true; // switches the next to the lobby menu.
                 next.setText("start");
+                show2.setText("Type in your name(s) and press enter or add button. Press start when ready to play.");
             } else { // do not add people
                 lobby = true;
                 game = false;
