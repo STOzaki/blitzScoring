@@ -9,7 +9,6 @@ package blitz;
  *
  * @author Salem
  */
-import java.awt.*;
 import java.util.*;
 
 public class blitzFrame extends javax.swing.JFrame {
