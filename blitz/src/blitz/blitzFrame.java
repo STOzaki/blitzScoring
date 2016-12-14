@@ -40,26 +40,9 @@ public class blitzFrame extends javax.swing.JFrame {
         textBox2.setVisible(false);
         next.setVisible(true);
         next.setText("start");
-//        another.setVisible(false);
-//        while (finished) {
-            begin = new Node();
-//            players = 0;
-            show.setText("I hope you are ready to play Blitz!");
-            show2.setText("Type in your name(s) and press enter or add button. Press start when ready to play.");
-//            Scanner base = new Scanner(System.in);
-//            System.out.println("");
-//            naming(base);
-////            System.out.println(players);
-//            round(base);
-//            String winner = whoWins();
-//            System.out.println(winner + " has won, congrats!  Now this is the real quetion... Would you like to play again, yes or no?");
-//            String answer = base.next();
-//            System.out.println("");
-//            if (answer.equals("no")) {
-//                System.out.println("Thank you for playing!");
-//                break;
-//            }
-//        }
+        begin = new Node();
+        show.setText("I hope you are ready to play Blitz!");
+        show2.setText("Type in your name(s) and press enter or add button. Press start when ready to play.");
     }
 
     private LinkedList<String> whoWins() {
@@ -67,13 +50,12 @@ public class blitzFrame extends javax.swing.JFrame {
         int max = 0;
         Node all = begin;
         for (int i = total.size(); i > 0; i--) {
-            if (all.score > max) {
-//                System.out.println("Find the max " + all.score);
+            if (all.score > max) { // checks to see if this player's socre is higher than the current max score.
+                // gets rid of the previous max and replaces it.
                 winners.clear();
                 winners.add(all.name);
                 max = all.score;
-            } else if(all.score == max) {
-//                System.out.println("Find a match " + all.score);
+            } else if(all.score == max) { // if the scores are equal to the max.
                 winners.add(all.name);
             }
             all = all.next;
@@ -137,13 +119,9 @@ public class blitzFrame extends javax.swing.JFrame {
     
     private void lobby(){
         if(lobby == true){
-//            textBox1.setVisible(false);
-//            label1.setVisible(false);
             add.setVisible(false);
             lobby = false;
         } else {
-//            textBox1.setVisible(true);
-//            label1.setVisible(true);
             add.setVisible(true);
             lobby = true;
         }
@@ -151,24 +129,12 @@ public class blitzFrame extends javax.swing.JFrame {
     
     private void game(){
         if(game == true){
-//            textBox1.setVisible(false);
             textBox2.setVisible(false);
-//            label1.setVisible(false);
             label2.setVisible(false);
-//            next.setVisible(false);
             game = false;
         } else {
-////            System.out.println(x + "  " + y);
-//            System.out.println(finish.getLocation().x);
-//            System.out.println(finish.getLocation().y);
-//            finish.setLocation(finish.getLocation().x - 10000, finish.getLocation().y - 10000);
             label2.setVisible(true);
-//            System.out.println(label2.getLocationOnScreen().x);
-//            System.out.println(label2.getLocationOnScreen().y);
-//            textBox1.setVisible(true);
             textBox2.setVisible(true);
-//            label1.setVisible(true);
-//            next.setVisible(true);
             game = true;
         }
     }
@@ -346,10 +312,8 @@ public class blitzFrame extends javax.swing.JFrame {
                     begin.next = after;
                     begin.before = null;
                     total.add(player);
-//                    temptotal.add(player); // add to the temp as well.
                     show.setText(player + " has been added!");
                     people = people + player + ", "; // adds the first person to the list of people.
-//                    tempplayer ++; // increment the amount of people.
                 } else {
                     Node end = going(player);
                     if(duplicate == false){
@@ -361,7 +325,6 @@ public class blitzFrame extends javax.swing.JFrame {
                         total.add(player);
                         show.setText(player + " has been added!");
                         people = people + player + ", "; // Add the new person.
-//                        tempplayer ++;
                     } else {
                         show.setText("I am sorry, " + player + " already exists.");
                         duplicate = false; // set the duplicate back
@@ -527,7 +490,6 @@ public class blitzFrame extends javax.swing.JFrame {
     
     private void endGame(){
         LinkedList<String> winner = whoWins();
-//        System.out.println(winner.size());
         if(winner.size() > 1){
             int lenWinner = winner.size();
             String winners = "";
@@ -576,14 +538,6 @@ public class blitzFrame extends javax.swing.JFrame {
             temptotal.add(total.get(i));
         }
         if(doDebug)System.out.println(temptotal.size());
-//        Node people = begin;
-//        String round = "";
-//        while(people.name != null){
-//            round = round + people.name + " has " + people.score + " points, ";
-//            people = people.next;
-//            
-//        }
-//        show.setText(round);
 
          // grabs all player's names and their scores and then displays it.
         String roundScores = allScore();
