@@ -488,6 +488,9 @@ public class blitzFrame extends javax.swing.JFrame {
     }
     
     private void endGame(){
+        // clearing the numbers and strings in the two boxes
+        textBox1.setText("");
+        textBox2.setText("");
         LinkedList<String> winner = whoWins();
         if(winner.size() > 1){
             int lenWinner = winner.size();
