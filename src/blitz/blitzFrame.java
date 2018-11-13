@@ -531,6 +531,8 @@ public class blitzFrame extends javax.swing.JFrame {
     
     private void roundEnd(){
         temptotal.clear(); // clears the temtotal
+        textBox2.setText("");
+        textBox1.setText("");
         tempplayer = total.size(); // set the length back to normal.
         for(int i = 0; i < total.size(); i++){
             // put all of players in to the temp again
@@ -546,8 +548,6 @@ public class blitzFrame extends javax.swing.JFrame {
         String list = "";
         list = list + remainder(true);
         show2.setText(list);
-        
-        
         
     }
     
