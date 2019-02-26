@@ -1,4 +1,5 @@
 # Blitz Scoring
+a program to track player scores in the game Blitz
 ### Setup
 Simply go into Netbeans and open this directory as the project and you should be set
 ### Run Jar
